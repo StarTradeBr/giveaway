@@ -75,6 +75,7 @@
     margin-top: 20px;
     font-size: 1.5em;
     font-weight: bold;
+    text-align: center;
   }
 </style>
 </head>
@@ -133,7 +134,9 @@
     const items = Array.from(participantList.children);
     const winnerLi = items.find(li => li.textContent === winnerPseudo);
     winnerLi.classList.add("highlight");
-    grandWinnerDiv.textContent = `🏆 Grand gagnant : ${winnerLi.textContent} 🏆`;
+
+    // Message final avec instruction DM
+    grandWinnerDiv.innerHTML = `🏆 Grand gagnant : ${winnerLi.textContent} 🏆<br>DM <b>Milka242424</b> sur Discord pour recevoir ta Carte Shark 🎁`;
   });
 </script>
 </body>
